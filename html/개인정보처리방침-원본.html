@@ -1,0 +1,1533 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no, address=no, email=no, date=no, url=no" />
+<meta name="keywords" content="한국고용노동교육원">
+<meta name="description" content="희망을 담은 고용, 미래를 여는 노동.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="한국고용노동교육원">
+<meta property="og:description" content="희망을 담은 고용, 미래를 여는 노동">
+<meta property="og:url" content="https://www.keli.kr/">
+<meta property="og:image" content="../static/common/images/www/common/logo.png"><title>한국고용노동교육원</title>
+<link rel="shortcut icon"  href="../static/common/images/www/common/favicon.gif">
+<link rel="stylesheet" href="../static/common/font/notosanskr.css">
+<link rel="stylesheet" href="../static/common/font/material-icons.css?v=20250826133126">
+<script src="../static/common/js/jquery/jquery-1.9.1.min.js"></script>
+<script src="../static/common/"></script>
+<!-- jquery ui -->
+<link rel="stylesheet" href="../static/lib/jquery-ui-1.13.1.custom/jquery-ui.min.css">
+<script src="../static/lib/jquery-ui-1.13.1.custom/jquery-ui.min.js"></script>
+<!-- //jquery ui -->
+<script src="../static/lib/slick.min.js"></script>
+<script src="../static/common/js/www/design.js?v=20250826133126"></script>
+<link rel="stylesheet" href="../static/common/css/www/common.css?v=20250826133126">
+<script src="https://www.w3schools.com/lib/w3data.js"></script>
+
+<script src="../static/js/common/jquery.imui.cmmt.min.js"></script>
+<script src="../static/js/common/jquery.imui.request.i18n.bundle.ko.min.js"></script>
+<script src="../static/js/common/jquery.imui.request.min.js"></script> 
+
+<script src="/inc/function.jsp"></script>
+<script>
+
+var GREQ = {
+		req : {
+			login : null,
+			courseSearch : null
+		},
+		init: function(){
+			this.req.login = imRequest();
+			this.req.login.cfg.formId = "FormLoginParam";
+			this.req.login.cfg.url    = "/cmmn/login.do";
+			
+			this.req.courseSearch = imRequest();
+			this.req.courseSearch.cfg.formId = "FormSubSearch";
+			this.req.courseSearch.cfg.url    = "/cmmn/crs/selectListSearch.do";
+		},
+		login : function(){
+			GREQ.req.login.go();
+		},
+		loginClose : function(){
+			$("#manage_login").hide();
+		},
+		loginReturnUrl : function(returnUrl){
+			$("#_paramReturnUrl").val(returnUrl);
+		},
+		loginShow : function(){
+			$("#manage_login").show();
+		},
+		loginChekShow : function(gourl,menuNo){
+			if(gourl=='dir'){
+				return;
+			}
+			
+
+			var req = imRequest();
+			req.cfg.formId = "FormMenuParam";
+			
+			var form =  document.getElementById(req.cfg.formId);
+			form.elements["_paramMenuNo"].value= menuNo;
+			
+			
+			
+			if(gourl.substr(1, 4).toLowerCase()=='user'){
+				GREQ.loginReturnUrl(gourl);
+				$("#manage_login").show();	
+			}else{
+
+				req.cfg.url    = COMMT.contextPath + gourl;
+				
+				req.go();	
+			}
+			
+			
+			
+		},
+		loginChek : function(gourl){
+			GREQ.loginReturnUrl(gourl);
+			$("#manage_login").show();
+		},
+		courseSearch : function(){
+			GREQ.req.courseSearch.go();
+		}
+}
+
+jQuery(document).ready(function(){
+	IMGLBObject.parameters = jQuery("#FormMenuParam").serialize(); // 공통파라미터
+	COMMT.contextPath = '';
+	GREQ.init();
+	
+	
+	$(document).bind('keydown',function(e){
+		/* F12 방지 */
+		if ( e.keyCode == 123 ) {
+			e.preventDefault(); 
+			e.returnValue = false;
+		}
+		
+
+	});
+	
+});
+
+
+	
+
+	function fnPrint(){
+		// var initBody = document.body.innerHTML;
+		// window.onbeforeprint = function () {
+		// 	document.body.innerHTML = document.getElementById("content_frame").innerHTML;
+		// }
+		// window.onafterprint = function () {
+		// 	document.body.innerHTML = initBody;
+		// }
+		window.print();
+	};
+</script>
+<body>
+<div class="ctm gray">
+	<!-- header -->
+	<div id="header">
+		<!--<div class="top_notice">
+	<div>
+		<h4 class="tit">2022년 국민취업지원제도 직업상담 현장사례 연구모임 조별 구성 및 참석안내</h4>
+		<p class="con">국취 민간위탁기관 및 연계/협업기관 종사자, 고용센터 담당자 등 누구나 가능하며 신청방법은 공지사항을 참고해주세요.</p>
+	</div>
+</div>-->
+<div class="global">
+	<div class="top">
+		<h1 class="logo">
+			<a href="/cmmn/index.do"><span class="sr_only">한국고용노동교육원</span></a>
+		</h1>
+		<a href="#sidr" class="nav_toggle" title="모바일 메뉴">
+			<span class="line"></span>
+			<span class="line"></span>
+			<span class="line"></span>
+			<span class="sr_only">모바일 메뉴</span>
+		</a>
+		<form id="FormSubSearch" name="FormSubSearch" method="post" onsubmit="return false;">
+		<div class="top_search" style="padding-right: 35px;">
+			<div class="in_search">
+				<input type="hidden" name="_paramMenuNo" value="910101"/>
+				<input type="hidden" name="scKey" value="greqCrsNm" />
+				<input type="text" name="scWord" onKeyup="COMMT.enterCallFunc(event, GREQ.courseSearch); return false;" title="과정 검색창" placeholder="과정명을 입력하여 주세요">
+			</div>
+			<a href="#" onclick="GREQ.courseSearch();return false;" class="b_t_search"></a>
+		</div>
+		</form>
+		<div class="member">
+			<ul>
+				<li>
+					<a href="/cmmn/login.do" class="log">로그인</a>
+				</li>
+				<li>
+					<a href="/cmmn/ussMngr/registStart.do"  class="log">회원가입</a>
+				</li>
+				<li>
+					<a href="/cmmn/page/sitemap/page.do"  class="log">사이트맵</a>
+				</li>
+			</ul>
+			
+			<div class="lang">
+				<a href="#" class="on">KOR</a>
+				<a href="/en/index.do" >ENG</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="frm">
+	<div class="nav">
+		<div class="rows">
+		<ul class="menu" id="gnb">
+				<li>
+				 	<a href="#" onclick="javascript:GREQ.loginChekShow('dir','910100');return false;">교육신청</a>
+				 	<ul>
+						<li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/crs/selectListSearch.do','910101');return false;" >과정찾기</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/crs/schedule/selectList.do','910102');return false;" >교육일정</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/crs/field/selectList.do','910103');return false;" >교육분야</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/crs/target/selectList.do','910104');return false;" >교육대상</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/crs/category/selectList.do','910105');return false;" >교육유형</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/crs/elearn/selectList.do','910106');return false;" >이러닝교육</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/user/wokasiAply/select.do','910107');return false;" >지원교육</a>
+								</li>
+						 </ul>
+				</li>
+				 <li>
+				 	<a href="#" onclick="javascript:GREQ.loginChekShow('dir','910200');return false;">학습센터</a>
+				 	<ul>
+						<li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/microCrs/selectList.do','910201');return false;" >마이크로러닝</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/ebook/selectList.do','910204');return false;" >E-book</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/research/selectList.do','910205');return false;" >연구보고서</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/resource/selectList.do','910206');return false;" >교육프로그램 및 교재</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/issue/selectList.do','910207');return false;" >고용노동이슈브리프</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/column/selectList.do','910208');return false;" >고용노동칼럼</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/user/tchrAplyInfo/tchrPoolSelectList.do','910209');return false;" >강의전문위원 풀</a>
+								</li>
+						 </ul>
+				</li>
+				 <li>
+				 	<a href="#" onclick="javascript:GREQ.loginChekShow('dir','910300');return false;">고객마당</a>
+				 	<ul>
+						<li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/objcAply/selectMain.do','910306');return false;" >고객의소리</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/faq/selectList.do','910305');return false;" >자주하는질문</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/user/egov/commu/selectList.do','910301');return false;" >커뮤니티</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cntst/selectList.do','910307');return false;" >공모전</a>
+								</li>
+						 </ul>
+				</li>
+				 <li>
+				 	<a href="#" onclick="javascript:GREQ.loginChekShow('dir','910400');return false;">알림마당</a>
+				 	<ul>
+						<li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/edunotice/selectList.do','910412');return false;" >공지사항</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/selectListPromotion.do','910402');return false;" >홍보자료</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/report/selectList.do','910403');return false;" >보도자료</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/newsletter/selectList.do','910404');return false;" >뉴스레터</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/cardnews/selectList.do','910405');return false;" >카드뉴스</a>
+								</li>
+						 </ul>
+				</li>
+				 <li>
+				 	<a href="#" onclick="javascript:GREQ.loginChekShow('dir','910500');return false;">정보공개</a>
+				 	<ul>
+						<li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro31/page.do','910511');return false;" >정보공개</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/organ/page.do','910502');return false;" >경영공시</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro34/page.do','910503');return false;" >공공데이터</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/realname/selectList.do','910504');return false;" >사업실명제</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro35/page.do','910509');return false;" >고객헌장</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro38/page.do','910515');return false;" >윤리경영</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/innovation/selectList.do','910507');return false;" >혁신마당</a>
+								</li>
+						 </ul>
+				</li>
+				 <li>
+				 	<a href="#" onclick="javascript:GREQ.loginChekShow('dir','910600');return false;">교육원 소개</a>
+				 	<ul>
+						<li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro01/page.do','910601');return false;" >원장인사말</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/business/page.do','910602');return false;" >사업소개</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro56/page.do','910603');return false;" >연혁</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro05/page.do','910608');return false;" >미션/비전</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro06/page.do','910609');return false;" >CI/캐릭터소개</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/profs/selectList.do','994541');return false;" >교수진</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro09/page.do','910605');return false;" >조직도/부서</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro08/page.do','910611');return false;" >시설소개</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro57/page.do','910616');return false;" >오시는 길</a>
+								</li>
+						 </ul>
+				</li>
+				 <li>
+				 	<a href="#" onclick="javascript:GREQ.loginChekShow('dir','910700');return false;">마이페이지</a>
+				 	<ul>
+						<li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/user/crsAplcnt/selectListDashBoard.do','8100009');return false;" >대시보드</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/user/crsAplcnt/selectListUser.do','910701');return false;" >수강현황</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/user/objcAply/selectList.do','910712');return false;" >활동현황</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/user/crsNtt/resource/selectList.do','910722');return false;" >학습자료실</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/user/ussMngr/modifyUserChoice.do','910707');return false;" >개인정보수정</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/user/tchrAplyInfo/detail.do','910706');return false;" >강의전문위원 신청</a>
+								</li>
+						 <li  >
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/user/crsAplcnt/selectListUserRecommend.do','910710');return false;" >추천과정</a>
+								</li>
+						 </ul>
+				</li>
+				 </ul></div>
+	</div>
+</div>	
+</div>
+<!-- 모바일 메뉴 -->
+	<div class="side_bar" id="sidr">
+		<div class="inner">
+				<div class="head">
+				<button type="button" class="tog"><i class="m_icon close"></i></button>
+				<ul class="gl">
+					<li><a href="/cmmn/login.do" >로그인</a></li>
+					<li><a href="/cmmn/ussMngr/registStart.do" >회원가입</a></li>
+					</ul>
+			</div>
+			<ul class="nav">
+				<li>
+					<a href="#" class="opener">교육신청</a>
+					<ul>
+						<li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/crs/selectListSearch.do','910101');return false;" >과정찾기</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/crs/schedule/selectList.do','910102');return false;" >교육일정</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/crs/field/selectList.do','910103');return false;" >교육분야</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/crs/target/selectList.do','910104');return false;" >교육대상</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/crs/category/selectList.do','910105');return false;" >교육유형</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/crs/elearn/selectList.do','910106');return false;" >이러닝교육</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/user/wokasiAply/select.do','910107');return false;" >지원교육</a>
+								</li>
+						 </ul>
+				</li>
+				 <li>
+					<a href="#" class="opener">학습센터</a>
+					<ul>
+						<li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/microCrs/selectList.do','910201');return false;" >마이크로러닝</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/ebook/selectList.do','910204');return false;" >E-book</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/research/selectList.do','910205');return false;" >연구보고서</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/resource/selectList.do','910206');return false;" >교육프로그램 및 교재</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/issue/selectList.do','910207');return false;" >고용노동이슈브리프</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/column/selectList.do','910208');return false;" >고용노동칼럼</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/user/tchrAplyInfo/tchrPoolSelectList.do','910209');return false;" >강의전문위원 풀</a>
+								</li>
+						 </ul>
+				</li>
+				 <li>
+					<a href="#" class="opener">고객마당</a>
+					<ul>
+						<li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/objcAply/selectMain.do','910306');return false;" >고객의소리</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/faq/selectList.do','910305');return false;" >자주하는질문</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/user/egov/commu/selectList.do','910301');return false;" >커뮤니티</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('dir','910304');return false;" >공모전</a>
+								<ul>
+						 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cntst/selectList.do','910307');return false;" >공모전</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cntstPrtcp/athntYrslf.do','910308');return false;" >공모전 신청현황</a>
+							 	</li>
+							 	</ul>
+						 </li>
+						 </ul>
+				</li>
+				 <li>
+					<a href="#" class="opener">알림마당</a>
+					<ul>
+						<li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/notice/selectList.do','910401');return false;" >공지사항</a>
+								<ul>
+						 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/edunotice/selectList.do','910412');return false;" >교육공지</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/notice/selectList.do','910411');return false;" >일반공지</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/contract/selectList.do','910413');return false;" >입찰공지</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/post/selectList.do','910414');return false;" >채용공지</a>
+							 	</li>
+							 	</ul>
+						 </li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/selectListPromotion.do','910402');return false;" >홍보자료</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/report/selectList.do','910403');return false;" >보도자료</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/newsletter/selectList.do','910404');return false;" >뉴스레터</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/cardnews/selectList.do','910405');return false;" >카드뉴스</a>
+								</li>
+						 </ul>
+				</li>
+				 <li>
+					<a href="#" class="opener">정보공개</a>
+					<ul>
+						<li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('dir','910501');return false;" >정보공개</a>
+								<ul>
+						 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro31/page.do','910511');return false;" >정보공개제도소개</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro32/page.do','910512');return false;" >정보공개청구</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/advance/selectList.do','910513');return false;" >사전정보공표</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/openInfo/selectList.do','910583');return false;" >정보공개</a>
+							 	</li>
+							 	</ul>
+						 </li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/organ/page.do','910502');return false;" >경영공시</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('dir','910523');return false;" >공공데이터</a>
+								<ul>
+						 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro34/page.do','910503');return false;" >공공데이터개방</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/commuAply/selectList.do','910524');return false;" >공공데이터 소통창구</a>
+							 	</li>
+							 	</ul>
+						 </li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/realname/selectList.do','910504');return false;" >사업실명제</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('dir','910505');return false;" >고객헌장</a>
+								<ul>
+						 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro35/page.do','910509');return false;" >고객헌장</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro36/page.do','910510');return false;" >핵심서비스 이행표준</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro37/page.do','910514');return false;" >고객응대서비스 이행표준</a>
+							 	</li>
+							 	</ul>
+						 </li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('dir','910506');return false;" >윤리경영</a>
+								<ul>
+						 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro38/page.do','910515');return false;" >인권경영헌장</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro39/page.do','910516');return false;" >인권경영규정</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro40/page.do','910517');return false;" >임직원윤리강령</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro41/page.do','910518');return false;" >임직원행동강령</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro55/page.do','910519');return false;" >부패/공익신고</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro43/page.do','910521');return false;" >부패방지지침</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro44/page.do','910522');return false;" >청렴직무계약서</a>
+							 	</li>
+							 	</ul>
+						 </li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/cmmnNtt/innovation/selectList.do','910507');return false;" >혁신마당</a>
+								</li>
+						 </ul>
+				</li>
+				 <li>
+					<a href="#" class="opener">교육원 소개</a>
+					<ul>
+						<li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro01/page.do','910601');return false;" >원장인사말</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/business/page.do','910602');return false;" >사업소개</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro56/page.do','910603');return false;" >연혁</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro05/page.do','910608');return false;" >미션/비전</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('dir','910604');return false;" >CI/캐릭터소개</a>
+								<ul>
+						 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro06/page.do','910609');return false;" >CI소개</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro07/page.do','910610');return false;" >캐릭터소개</a>
+							 	</li>
+							 	</ul>
+						 </li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/profs/selectList.do','994541');return false;" >교수진</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro09/page.do','910605');return false;" >조직도/부서</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('dir','910606');return false;" >시설소개</a>
+								<ul>
+						 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro08/page.do','910611');return false;" >교육원전경</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro10/page.do','910612');return false;" >문형관</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro03/page.do','910613');return false;" >창조관</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro11/page.do','910614');return false;" >수신관</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro42/page.do','910615');return false;" >인화관</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro80/page.do','910618');return false;" >대전교육센터</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro80_seoul/page.do','910631');return false;" >서울교육장</a>
+							 	</li>
+							 	</ul>
+						 </li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('dir','910607');return false;" >오시는 길</a>
+								<ul>
+						 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro57/page.do','910616');return false;" >본원</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro58/page.do','910617');return false;" >대전교육센터</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro58_seoul/page.do','910632');return false;" >서울교육장</a>
+							 	</li>
+							 	</ul>
+						 </li>
+						 </ul>
+				</li>
+				 <li>
+					<a href="#" class="opener">마이페이지</a>
+					<ul>
+						<li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/user/crsAplcnt/selectListDashBoard.do','8100009');return false;" >대시보드</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/user/crsAplcnt/selectListUser.do','910701');return false;" >수강현황</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('dir','910704');return false;" >활동현황</a>
+								<ul>
+						 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/user/objcAply/selectList.do','910712');return false;" >나의 고객의소리</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/user/qnaAply/selectList.do','910740');return false;" >나의1:1문의</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/user/crsCmnt/selectListReview.do','910713');return false;" >나의 교육후기</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/user/egov/commu/selectListMyCommu.do','910711');return false;" >나의 커뮤니티</a>
+							 	</li>
+							 	<li>
+								<a href="#" onclick="javascript:GREQ.loginChekShow('/user/crs/selectListFavorite.do','910715');return false;" >좋아요 목록</a>
+							 	</li>
+							 	</ul>
+						 </li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/user/crsNtt/resource/selectList.do','910722');return false;" >학습자료실</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/user/ussMngr/modifyUserChoice.do','910707');return false;" >개인정보수정</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/user/tchrAplyInfo/detail.do','910706');return false;" >강의전문위원 신청</a>
+								</li>
+						 <li>
+						  	<a href="#" onclick="javascript:GREQ.loginChekShow('/user/crsAplcnt/selectListUserRecommend.do','910710');return false;" >추천과정</a>
+								</li>
+						 </ul>
+				</li>
+				 </ul>
+		<!-- <ul class="foot">
+			<li><a href="https://www.moel.go.kr/index.do" target="_blank"><img src="" alt="고용노동부"></a></li>
+			<li><a href="https://www.comwel.or.kr/comwel/main.jsp" target="_blank"><img src="" alt="근로복지공단"></a></li>
+			<li><a href="https://www.hrdkorea.or.kr/" target="_blank"><img src="" alt="한국산업인력공단"></a></li>
+		</ul> --></div>
+	</div>
+	<!-- //모바일 메뉴 -->
+	<!-- //header -->
+	<div id="content">
+		<div class="rows">
+			<div class="content_left">
+				<div class="tit">
+					<span>부가기능</span>
+					</div>
+				<ul>
+					<li  >
+							 <a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro101/page.do','410000');return false;" >
+								서비스 헌장</a>
+								</li>	
+							<li  >
+							 <a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/intro60/page.do','420000');return false;" >
+								안전보건경영</a>
+								</li>	
+							<li  class="on">
+							 <a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/webPage/privacy/selectView.do','430000');return false;" >
+								개인정보 처리방침</a>
+								</li>	
+							<li  >
+							 <a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/webPage/video/selectView.do','440000');return false;" >
+								영상정보처리기기 운영·관리방침</a>
+								</li>	
+							<li  >
+							 <a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/webPage/terms/selectView.do','450000');return false;" >
+								이용약관</a>
+								</li>	
+							<li  >
+							 <a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/webPage/relation/selectView.do','460000');return false;" >
+								관련사이트 한 눈에 보기</a>
+								</li>	
+							<li  >
+							 <a href="#" onclick="javascript:GREQ.loginChekShow('/cmmn/page/sitemap/page.do','470000');return false;" >
+								사이트맵</a>
+								</li>	
+							</ul>
+			</div>
+			<div class="content_wrap">
+				<div class="sub_top">
+					<h3 class="ct_title">개인정보 처리방침</h3>
+					<div class="path">
+						<div><span>홈</span></div>
+						<div><span>부가기능​</span></div>
+						<div><span>개인정보 처리방침</span></div>
+					</div>
+				</div>
+				<!-- 콘텐츠 Start-->
+				<div>
+				<script type="text/javascript" >
+
+
+var REQ = {
+	req : {
+		search : null,
+	},
+	init : function(){
+		this.req.search = imRequest();
+		this.req.search.cfg.formId = "FormSearch";
+		this.req.search.cfg.url    = "/cmmn/webPage/selectDetail.do";
+	},
+	search : function(webPageId){
+		var form =  document.getElementById(this.req.search.cfg.formId);
+		form.elements["webPageId"].value= webPageId;
+		REQ.req.search.go();
+	}
+}
+
+
+$(document).ready(function(){
+	REQ.init();
+});
+
+</script>
+<form name="FormSearch" id="FormSearch" method="post" onsubmit="return false;">
+<input type="hidden" name="webPageId" />
+</form>
+
+<div class="footer_sub">
+								<p>
+									한국고용노동교육원(이하‘교육원’이라 한다)은 정보주체의 자유와 권리 보호를 위해 「개인정보 보호법」 및 관계 법령이 정한 바를 준수하여, 적법하게 개인정보를 처리하고 안전하게 관리하고 있습니다.<br>
+									<br>이에 「개인정보 보호법」 제30조에 따라 정보주체에게 개인정보 처리에 관한 절차 및 기준을 안내하고, 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리방침을 수립·공개합니다.<br><br>
+								</p>
+								<span>
+									<center>[ 주요 개인정보 처리 표시 (라벨링) ]<br><br></center>
+								</span>
+								<ul class="ul_box">
+									<li><span class="tit"><img src="../static/common/images/www/privacy/image12.png"><br><span class="tit">처리목적<br>&nbsp</span></li>
+									<li><span class="tit"><img src="../static/common/images/www/privacy/image20.png"><br><span class="tit">보유기간<br>&nbsp</span></li>
+									<li><span class="tit"><img src="../static/common/images/www/privacy/image18.png"><br><span class="tit">제3자 제공<br>&nbsp</span></li>
+									<li><span class="tit"><img src="../static/common/images/www/privacy/image11.png"><br><span class="tit">처리항목<br>&nbsp</span></li>
+									<li><span class="tit"><img src="../static/common/images/www/privacy/image19.png"><br><span class="tit">처리위탁<br>&nbsp</span></li>
+									<li><span class="tit"><img src="../static/common/images/www/privacy/image22.png"><br><span class="tit">파기<br>&nbsp</span></li>
+									<li><span class="tit"><img src="../static/common/images/www/privacy/image15.png"><br><span class="tit">행태정보의<br>수집</span></li>
+									<li><span class="tit"><img src="../static/common/images/www/privacy/image14.png"><br><span class="tit">자동수집<br>&nbsp</span></li>
+									<li><span class="tit"><img src="../static/common/images/www/privacy/image24.png"><br><span class="tit">안전성<br>확보조치</span></li>
+									<li><span class="tit"><img src="../static/common/images/www/privacy/image23.png"><br><span class="tit">정보주체의<br>권리의무</span></li>
+									<li><span class="tit"><img src="../static/common/images/www/privacy/image32.png"><br><span class="tit">권익침해<br>구제</span></li>
+									<li><span class="tit"><img src="../static/common/images/www/privacy/image29.png"><br><span class="tit">개인정보<br>보호 책임자</span></li>
+									<li><span class="tit"><img src="../static/common/images/www/privacy/image31.png"><br><span class="tit">고충사항<br>처리부서</span></li>
+									<li><span class="tit"><img src="../static/common/images/www/privacy/image33.png"><br><span class="tit">열람청구<br>&nbsp</span></li>
+									<li><span class="tit"><img src="../static/common/images/www/privacy/image28.png"><br><span class="tit">법정대리인의<br>권리의무</span></li>
+									<li><span class="tit"><img src="../static/common/images/www/privacy/image34.png"><br><span class="tit">고정형영상정보<br>처리기기</span></li>
+									<li><span class="tit"><img src="../static/common/images/www/privacy/image27.png"><br><span class="tit">개인정보<br>보호수준 평가</span></li>
+									<li><span class="tit"><img src="../static/common/images/www/privacy/image33.png"><br><span class="tit">열람청구<br>&nbsp</span></li>
+								</ul><br id="section0"><br><br>
+								<span>
+									<center>[ 목차 ]<br><br></center>
+								</span>
+								<span>「개인정보 처리방침」은 다음과 같은 내용으로 구성되어 있습니다.</span>
+								<ul class="ul_box">
+									<li><span class="tit"><a href="#section1">&nbsp<br>개인정보의 처리목적 및 항목, 보유기간<br>&nbsp</a></span></li>
+									<li><span class="tit"><a href="#section2">&nbsp<br>개인정보파일 등록 현황<br>&nbsp</a></span></li>
+									<li><span class="tit"><a href="#section3">&nbsp<br>14세 미만 아동의 개인정보 처리<br>&nbsp</a></span></li>
+									<li><span class="tit"><a href="#section4">&nbsp<br>개인정보의 제3자 제공<br>&nbsp</a></span></li>
+									<li><span class="tit"><a href="#section5">&nbsp<br>개인정보 처리 업무의 위탁<br>&nbsp</a></span></li>
+									<li><span class="tit"><a href="#section6">&nbsp<br>개인정보의 파기절차 및 파기방법<br>&nbsp</a></span></li>
+									<li><span class="tit"><a href="#section7">개인정보 자동 수집장치의<br>설치·운영 및 거부</a></span></li>
+									<li><span class="tit"><a href="#section8">개인정보 자동 수집장치를 통해 제3자가<br>형태정보를 수집하도록 허용하는 경우<br>그 수집·이용 및 거부에 관한 사항</a></span></li>
+									<li><span class="tit"><a href="#section9">개인정보의 안전성<br>확보조치에 관한 사항</a></span></li>
+									<li><span class="tit"><a href="#section10">정보주체와 법정대리인의<br>권리의무 행사 및 권익침해 구제방법</a></span></li>
+									<li><span class="tit"><a href="#section11">개인정보 보호책임자 또는 개인정보<br>업무 담당 및 고충사항 처리 부서</a></span></li>
+									<li><span class="tit"><a href="#section12">개인정보의 열람청구를<br>접수·처리하는 부서 및 절차</a></span></li>
+									<li><span class="tit"><a href="#section13">고정형 영상정보처리기기의<br>운영·관리에 관한 사항</a></span></li>
+									<li><span class="tit"><a href="#section14">&nbsp<br>개인정보 보호수준 평가 결과<br>&nbsp</a></span></li>
+									<li><span class="tit" id="section1"><a href="#section15">&nbsp<br>개인정보 처리방침의 변경에 관한 사항<br>&nbsp</a></span></li>
+								</ul><br>목차 클릭 시 해당 본문으로 이동됩니다
+								<ul>
+								</ul>
+								<br>
+								<h4 class="dcl_tit_block">
+									<span>개인정보의 처리목적 및 항목, 보유기간</span><span><img src="../static/common/images/www/privacy/image12.png">&nbsp&nbsp<img src="../static/common/images/www/privacy/image11.png">&nbsp&nbsp<img src="../static/common/images/www/privacy/image20.png"></span>
+								</h4>
+								<div>
+									<p class="con_txt">
+										<ul class="list_type1">
+											<li>
+												교육원은 대국민 서비스 제공 및 민원처리, 소관업무 수행 등의 목적을 위하여 최소한의 개인정보를 수집하여 처리합니다.<br>
+												처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며, 이용 목적이 변경되는 경우에는 「개인정보 보호법」제18조에 따라 별도의 동의를 받는 등 필요한 조치를 이행할 예정입니다.<br>
+												<span class="bluetxt d-block pt-20">① 회원 가입 및 관리</span>
+												회원 가입의사 확인, 회원제 서비스 제공에 따른 본인 식별·인증, 회원자격 유지·관리, 만 14세 미만 아동의 개인정보 처리시 법정대리인의 동의여부 확인, 공지사항 전달, 민원처리 의사소통 경로의 목적으로 개인정보를 처리합니다.<br>
+												<span class="bluetxt d-block pt-10">② 민원사무 처리</span>
+												민원인의 신원 확인, 민원사항 확인, 처리결과 통보 등의 목적으로 개인정보를 처리합니다.<br>
+												<span class="bluetxt d-block pt-10">③ 임직원 관리</span>
+												인사, 노무관리를 위한 교육원 임직원에 대한 운영 및 관리 등의 목적으로 개인정보를 처리합니다.<br><br></li>
+										</ul>
+									</p>
+									<!-- [마크업 수정] 2025-08-26 -->
+									<p class="table_title">
+										정보주체의 동의를 받아 처리하는 개인정보의 항목
+									</p>
+									
+									<table class="tbl_col tbl_content">
+										<colgroup>
+											<col style="width: 0px;">
+											<col style="width: 0px;">
+											<col style="width: 0px;">
+										</colgroup>
+										<thead>
+											<tr>
+												<th class="bdl_none" scope="col">개인정보 파일명</th>
+												<th scope="col">처리목적</th>
+												<th scope="col">개인정보 항목</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="bdl_none"><strong class="title">개인정보 파일명</strong><span>홈페이지/교육운영시스템</span></td>
+												<td><strong class="title">처리목적</strong><span class="bluetxt">홈페이지 및 교육과정 운영, 교육생 관리</span></td>
+												<td><strong class="title">개인정보 항목</strong><span class="bluetxt">성명, 생년월일, 휴대(일반)전화번호, 전자우편</span></td>
+											</tr>
+											<tr>
+												<td class="bdl_none"><strong class="title">개인정보 파일명</strong><span>임직원 인사정보</span></td>
+												<td><strong class="title">처리목적</strong><span class="bluetxt">교육원 직원 인사관리, 임금 지급 등 임직원 대상 근로계약 이행</span></td>
+												<td><strong class="title">개인정보 항목</strong><span class="bluetxt">성명, 내국인여부, 주민등록번호, 성별, 주소, 사진, 휴대전화번호, 혼인, 가족, 병역, 장애, 보훈, 학력, 자격, 어학, 경력, 계좌번호, 일반전화번호, 비상연락처, 전자우편</span></td>
+											</tr>
+										</tbody>
+									</table><br>
+									<p class="con_txt">
+										<ul class="list_type1">
+											<li>
+												교육원은 최소한의 개인정보를 수집하기 위하여 필수항목과 선택항목을 구분하여 수집하고 있습니다.</li>
+											<li>교육원은 법령에 따른 개인정보 보유‧이용기간 또는 정보주체로부터 개인정보 수집 시에 동의받은개인정보 보유‧이용기간 내에서 개인정보를 처리·보유합니다.</li>
+											<li>교육원의 개인정보파일 현황은 개인정보 포털(www.privacy.go.kr)에서도 파일별로 자세하게 확인하실 수 있습니다.
+												<p class="bx_grey">
+													※ 개인정보 포털(www.privacy.go.kr) → 개인서비스 → 정보주체 권리행사 → 개인정보 열람등요구 → “개인정보파일 검색” → 기관명에 “한국고용노동교육원” 입력 후 조회
+												</p>
+											</li>
+										</ul>
+										<div class="button_container">
+											<a class="c_btn" href="https://www.privacy.go.kr/wcp/pif/sch/personalInfoFileViewPopup.do?prsnInfoFileId=PIF_000000000743053" target="_blank">홈페이지/교육운영시스템 정보확인</a>&nbsp&nbsp&nbsp
+											<a class="c_btn" id="section2" href="https://www.privacy.go.kr/wcp/pif/sch/personalInfoFileViewPopup.do?prsnInfoFileId=PIF_000000000781436" target="_blank">임직원 인사정보 정보확인</a></div>
+									</p>
+									<p align="right"><a class="c_btn" href="#section0" text-align="end">목차로 바로가기</a></p>
+								</div>
+								<br>
+								<h4 class="dcl_tit_block">
+									<span>개인정보파일 등록 현황</span><span><img src="../static/common/images/www/privacy/image12.png">&nbsp&nbsp<img src="../static/common/images/www/privacy/image11.png">&nbsp&nbsp<img src="../static/common/images/www/privacy/image20.png"></span>
+								</h4>
+								<div>
+									<p class="con_txt">
+										<ul class="list_type1">
+											<li>교육원은 본 방침에서 명시한 범위 내에서 개인정보를 처리하고 있으며 「개인정보 보호법」 제32조에 따라 등록·공개하는 교육원의
+												개인정보파일 운영 현황은 「개인정보 포털」에서 공개하고 있습니다.</li>
+											<li>개인정보파일의 보유기간, 운용목적 및 처리하는 개인정보 항목 등은 개인정보파일의 특성에 따라
+												다음과 같이 달리 규정하고 있습니다.</li>
+										</ul>
+									</p><br>
+									<table class="tbl_col tbl_content">
+										<colgroup>
+											<col style="width: 20px;">
+											<col style="width: 20px;">
+											<col style="width: 35px;">
+											<col style="width: 15px;">
+											<col style="width: 15px;">
+										</colgroup>
+										<thead>
+											<tr>
+												<th class="bdl_none" scope="col">개인정보 파일명</th>
+												<th scope="col">처리목적</th>
+												<th scope="col">수집 항목</th>
+												<th scope="col">보유기간</th>
+												<th scope="col">보유기간<br>산정근거</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="bdl_none"><strong class="title">개인정보 파일명</strong><span>홈페이지/교육운영시스템</span></td>
+												<td><strong class="title">처리목적</strong><span class="bluetxt">홈페이지 및 교육과정 운영, 교육생 관리</span></td>
+												<td><strong class="title">수집항목</strong><span class="bluetxt">(필수) 성명, 생년월일, 휴대전화번호, 전자우편</span><br><span>(선택) 일반전화번호, 주소, 직장연락처, 직장 주소</span></td>
+												<td><strong class="title">보유기간</strong><span class="bluetxt">회원 탈퇴시까지</span></td>
+												<td><strong class="title">보유기간 산정근거</strong><span>내부방침(운영기준)</span></td>
+											</tr>
+											<tr>
+												<td class="bdl_none"><strong class="title">개인정보 파일명</strong><span>임직원 인사정보</span></td>
+												<td><strong class="title">처리목적</strong><span class="bluetxt">교육원 직원 인사관리, 임금 지급 등 임직원 대상 근로계약 이행</span></td>
+												<td><strong class="title">수집항목</strong><span class="bluetxt">(필수) 성명, 내국인여부, 주민등록번호, 성별, 주소</span><br><span>(선택) 사진, 휴대전화번호, 혼인, 가족, 병역, 장애, 보훈, 학력, 자격, 어학, 경력, 계좌번호, 일반전화번호, 비상연락처, 전자우편</span></td>
+												<td><strong class="title">보유기간</strong><span class="bluetxt">퇴직 후 3년</span></td>
+												<td><strong class="title">보유기간 산정근거</strong><span>근로기준법 제42조</span></td>
+											</tr>
+										</tbody>
+									</table><br id="section3">
+									<div class="button_container">
+										<a class="c_btn" href="https://www.privacy.go.kr/wcp/pif/sch/personalInfoFileViewPopup.do?prsnInfoFileId=PIF_000000000743053" target="_blank">홈페이지/교육운영시스템 정보확인</a>&nbsp&nbsp&nbsp
+										<a class="c_btn" href="https://www.privacy.go.kr/wcp/pif/sch/personalInfoFileViewPopup.do?prsnInfoFileId=PIF_000000000781436" target="_blank">임직원 인사정보 정보확인</a></div>
+									<p align="right"><a class="c_btn" href="#section0" text-align="end">목차로 바로가기</a></p><br>
+								</div>
+								<h4 class="dcl_tit_block">
+									<span>14세 미만 아동의 개인정보 처리</span><span><img src="../static/common/images/www/privacy/image28.png"></span>
+								</h4>
+								<div>
+									<p class="con_txt">
+										<ul class="list_type1">
+											<li>교육원은 만 14세 미만 아동의 개인정보를 처리하기 위하여 동의가 필요한 경우에는 해당 아동의 법정대리인으로부터 동의를 받습니다.</li>
+											<li>교육원은 14세 미만 아동의 개인정보 처리에 관하여 그 법정대리인의 동의를 받을 때에는 아동에게 법정대리인의 성명, 연락처와 같이 최소한의 정보를 요구할 수 있으며, 동의 내용을 게재한 인터넷 사이트에 법정대리인이 동의 여부를 표시하도록 하고, 법정대리인의 휴대전화 본인인증 등을 통해 본인 여부를 확인하는 방법으로 그 사실을 확인합니다.</li><br id="section4">
+									</p>
+									<p align="right"><a class="c_btn" href="#section0" text-align="end">목차로 바로가기</a></p><br>
+								</div>
+								<h4 class="dcl_tit_block">
+									<span>개인정보의 제3자 제공</span><span><img src="../static/common/images/www/privacy/image18.png"></span>
+								</h4>
+								<div>
+									<p class="con_txt">
+										<ul class="list_type1">
+											<li>교육원은 정보주체의 개인정보를 개인정보의 처리목적에서 명시한 범위 내에서 처리하며, 정보주체의 동의, 법률의 특별한 규정 등 「개인정보 보호법」 제17조 및 제18조에 해당하는 다음의 경우를 제외하고는 정보주체의 사전 동의 없이는 본래의 목적 범위를 초과하여 처리하거나 제3자에게 제공하지 않습니다.
+												<ul class="list-num py-20 bx_grey pl-30">
+													<li>정보주체로부터 별도의 동의를 받은 경우</li>
+													<li>다른 법률에 특별한 규정이 있는 경우</li>
+													<li>정보주체 또는 법정대리인이 의사표시를 할 수 없는 상태에 있거나 주소불명 등으로 사전 동의를 받을 수 없는 경우로서 명백히 정보주체 또는 제3자의 급박한 생명, 신체, 재산의 이익을 위하여 필요하다고 인정되는 경우</li>
+													<li>개인정보를 목적 외의 용도로 이용하거나 이를 제3자에게 제공하지 아니하면 다른 법률에서 정하는 소관 업무를 수행할 수 없는 경우로서 보호위원회의 심의·의결을 거친 경우</li>
+													<li>조약, 그 밖의 국제협정의 이행을 위하여 외국정보 또는 국제기구에 제공하기 위하여 필요한 경우</li>
+													<li>범죄의 수사와 공소의 제기 및 유지를 위하여 필요한 경우</li>
+													<li>법원의 재판업무 수행을 위하여 필요한 경우</li>
+													<li>형 및 감호, 보호처분의 집행을 위하여 필요한 경우</li>
+												</ul>
+											</li>
+											<li>교육원의 개인정보 제3자 제공 현황을 다음의 {개인정보 제3자 제공 현황} 표시를 클릭하여 조회하실 수 있습니다.<br>
+												<div class="button_container py-20">
+												<a class="c_btn" href="https://www.keli.kr/cmmn/cmmnNtt/notice/selectDetailOpen.do?cmmnNttIdOpn=t5HuHlhA4fNiaKuwgFmOtBRNvUDeXs!c&_paramMenuNo=910411" target="_blank">개인정보 제3자 제공 현황</a></div></li>
+											<li>교육원은 연계·제공과 관련하여 연계·제공받은 기관이 다른 기관에게 임의로 개인정보를 재제공한 사실이 확인된 경우에는 정보제공을 중단합니다.</li>
+											<li>교육원은 정부 관계부처가 합동으로 발표한 「긴급상황 시 개인정보 처리 및 보호수칙」에 따라 재난, 감염병, 급박한 생명·신체 위험을 초래하는 사건ㆍ사고, 급박한 재산 손실 등의 긴급상황이 발생하는 경우 정보주체의 동의 없이 관계기관에 개인정보를 제공할 수 있습니다.
+												<div class="button_container py-20">
+												<a class="c_btn" id="section5" href="https://www.pipc.go.kr/np/cop/bbs/selectBoardArticle.do?bbsId=BS217&mCode=D010030000&nttId=7641" target="_blank">긴급상황 시 개인정보 처리 및 보호수칙 확인</a>
+									
+									<p align="right"><a class="c_btn" href="#section0" text-align="end">목차로 바로가기</a></p></div></li>
+										</ul>
+									</p>
+								</div>
+								<h4 class="dcl_tit_block">
+									<span>개인정보 처리 업무의 위탁</span><span><img src="../static/common/images/www/privacy/image19.png"></span>
+								</h4>
+								<div>
+									<p class="con_txt">
+										<ul class="list_type1">
+											<li>교육원은 원활한 개인정보 업무처리를 위하여 다음과 같이 개인정보 처리업무를 위탁하고 있습니다.</li>
+										</ul>	
+									</p>
+									<table class="tbl_col tbl_content">
+										<colgroup>
+											<col style="width: 0px;">
+											<col style="width: 0px;">
+											<col style="width: 0px;">
+											<col style="width: 0px;">
+											<col style="width: 0px;">
+										</colgroup>
+										<thead>
+											<tr>
+												<th class="bdl_none" scope="col">수탁업체명</th>
+												<th scope="col">위탁업무</th>
+												<th scope="col">개인정보처리시스템</th>
+												<th scope="col">위탁기간</th>
+												<th scope="col">위탁부서</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="bdl_none"><strong class="title">수탁업체명</strong><span>베이스 커뮤니케이션즈</span></td>
+												<td><strong class="title">위탁업무</strong><span>홈페이지 및 교육운영시스템 유지보수</span></td>
+												<td><strong class="title">개인정보처리시스템</strong><span>홈페이지, 교육운영시스템</span></td>
+												<td><strong class="title">위탁기간</strong><span>2024. 9. 1. ~ 2025. 8. 31.</span></td>
+												<td><strong class="title">위탁부서</strong><span>경영지원팀</td>
+											</tr>
+											<tr>
+												<td class="bdl_none"><strong class="title">수탁업체명</strong><span>씨앤에프시스템(주)</span></td>
+												<td><strong class="title">위탁업무</strong><span>전사적 자원관리 시스템(ERP) 유지보수</span></td>
+												<td><strong class="title">개인정보처리시스템</strong><span>임직원 인사정보</span></td>
+												<td><strong class="title">위탁기간</strong><span>2024. 5. 1.~2025. 4. 30.</span></td>
+												<td><strong class="title">위탁부서</strong><span>경영지원팀</span></td>
+											</tr>
+										</tbody>
+									</table><br>
+									<p class="con_txt">
+										<ul class="list_type1">
+											<li>교육원은 위탁계약 체결 시, ｢개인정보 보호법｣ 제26조에 따라 위탁업무 수행목적 외 개인정보 처리금지, 안전성 확보조치, 재위탁 제한, 수탁자에 대한 관리‧감독, 손해배상 등 책임에 관한 사항을 계약서 등 문서에 명시하고, 수탁자가 개인정보를 안전하게 처리하는지를 감독하고 있습니다.</li>
+										<li>위탁업무의 내용이나 수탁자가 변경될 경우에는 지체없이 본 개인정보 처리 방침을 통하여 공개하도록 하겠습니다.</li><br id="section6">
+									</p>
+									<div class="button_container">
+									<p align="right"><a class="c_btn" href="#section0" text-align="end">목차로 바로가기</a></p>
+</div>
+									<br>
+								</div>
+								<h4 class="dcl_tit_block">
+									<span>개인정보의 파기절차 및 파기방법</span><span><img src="../static/common/images/www/privacy/image22.png"></span>
+								</h4>
+								<div>
+									<p class="con_txt">
+										<ul class="list_type1">
+											<li>
+										교육원은 개인정보 보유기간의 경과, 처리목적 달성 등 개인정보가 불필요하게 되었을 때에는 지체없이 해당 개인정보를 파기합니다.</li>
+										<li>정보주체로부터 동의 받은 개인정보 보유기간이 경과하거나 처리목적이 달성되었음에도 불구하고 다른 법령에 따라 개인정보를 계속 보존하여야 하는 경우에는, 해당 개인정보를 별도의 데이터베이스(DB)로 옮기거나 보관장소를 달리하여 보존합니다.</li>
+										<li>개인정보 파기의 절차 및 방법은 다음과 같습니다.
+											<ul class="list-num py-20 bx_grey pl-30">
+													<li>파기절차: 교육원은 파기하여야 하는 개인정보(또는 개인정보파일)에 대해 개인정보 파기계획을 수립하여 파기합니다. 교육원은 파기 사유가 발생한 개인정보(또는 개인정보파일)를 선정하고, 교육원의 개인정보보호책임자의 승인을 받아 개인정보(또는 개인정보파일)를 파기합니다.</li>
+													<li>
+										파기방법: 교육원은 전자적 파일 형태로 기록·저장된 개인정보는 복원이 불가능한 방법으로 영구 삭제하며, 서면 등의 기록매체로 기록·저장된 개인정보는 문서파쇄기로 파쇄하거나 소각하여 파기합니다.</li></ul></li>
+									</ul>
+									<br id="section7">
+									</p>
+									<div class="button_container">
+									<p align="right"><a class="c_btn" href="#section0" text-align="end">목차로 바로가기</a></p></div><br>
+								</div>
+								<h4 class="dcl_tit_block">
+									<span>개인정보 자동 수집 장치의 설치·운영 및 거부</span><span><img src="../static/common/images/www/privacy/image14.png"></span>
+								</h4>
+								<div>
+									<p class="con_txt">
+										<ul class="list_type1">
+											<li>교육원은 사용자에게 개별적인 서비스와 편의를 제공하기 위해 이용정보를 저장하고 수시로 불러오는 ‘쿠키(cookie)’를 사용합니다.</li>
+										<li>쿠키는 웹사이트 운영에 이용되는 서버(http)가 정보주체의 브라우저에 보내는 소량의 정보이며 정보주체의 PC 또는 모바일에 저장됩니다.</li>
+										<li>정보주체는 웹 브라우저 옵션 설정을 통해 쿠키 허용, 차단 등의 설정을 할 수 있습니다. 다만, 쿠키 저장을 거부할 경우 맞춤형 서비스 이용에 어려움이 발생할 수 있습니다.
+										<div class="bx_grey">
+										[ 쿠키 허용 / 차단 방법 ]<br><br>
+										<b>웹 브라우저에서 쿠키 허용/차단</b><br>
+										- 크롬(Chrome) : 웹 브라우저 설정 > 개인정보 보호 및 보안 > 인터넷 사용 기록 삭제<br>
+										- 엣지(Edge) : 웹 브라우저 설정 > 쿠키 및 사이트 권한 > 쿠키 및 사이트 데이터 관리 및 삭제<br><br>
+										<b>모바일 브라우저에서 쿠키 허용/차단</b><br>
+										- 크롬(Chrome) : 모바일 브라우저 설정 > 개인정보 보호 및 보안 > 인터넷 사용 기록 삭제<br>
+										- 사파리(Safari) : 모바일 기기 설정 > 사파리(Safari) > 고급 > 모든 쿠키 차단<br>
+										- 삼성 인터넷 : 모바일 브라우저 설정 > 인터넷 사용 기록 > 인터넷 사용 기록 삭제
+									</div></li><br id="section8">
+									</p>
+									<p align="right"><a class="c_btn" href="#section0" text-align="end">목차로 바로가기</a></p><br>
+								</div>
+								<h4 class="dcl_tit_block">
+									<span>개인정보 자동 수집 장치를 통해 제3자가 행태정보를 수집하도록 허용하는 경우 그 수집·이용 및 거부에 관한 사항</span><span><img src="../static/common/images/www/privacy/image15.png"></span>
+								</h4>
+								<div>
+									<p class="con_txt">
+										<ul class="list_type1">
+											<li>교육원은 온라인 맞춤형 광고 등을 위한 행태정보를 수집·이용·제공하지 않습니다.</li>
+										<li>교육원은 향후 행태정보를 수집·이용할 경우에는 본 방침을 통해 공개하겠습니다.</li><br id="section9">
+									</p>
+									<p align="right"><a class="c_btn" href="#section0" text-align="end">목차로 바로가기</a></p><br>
+								</div>
+								<h4 class="dcl_tit_block">
+									<span>개인정보의 안전성 확보조치</span><span><img src="../static/common/images/www/privacy/image24.png"></span>
+								</h4>
+								<div>
+									<p class="con_txt">
+										<ul class="list_type1">
+											<li>교육원은 개인정보 보호법 제29조에 따라 다음과 같이 안전성 확보에 필요한 기술적/관리적 및 물리적 조치를 하고 있습니다.
+										<ul class="list-num py-20">
+										<li class="pb-20">		
+										관리적 조치 : 내부관리계획 수립·시행, 정기적 직원 교육 등<br>
+										<div class="bx_grey">
+										<b>가. 내부관리계획의 수립 및 시행</b><br>
+										개인정보의 안전한 처리를 위하여 내부관리계획을 수립하고 시행하고 있습니다.<br><br>
+										<b>나. 개인정보 취급 직원의 최소화 및 교육</b><br>
+										개인정보를 취급하는 직원을 담당자에 한정시켜 최소화하여 지정·관리하고 있으며, 취급직원을 대상으로 안전한 관리를 위한 교육을 실시하고 있습니다.</div></li>
+
+										<li class="pb-20">기술적조치<br>
+										<div class="bx_grey">
+										<b>가. 접근로그 생성</b><br>
+										개인정보를 검색, 조회할 경우에 해당요청자의 접근기록이 생성되어 보관됩니다. 이는 개인정보를 누가 언제 조회하였는지에 대한 내용을 기록하여 개인정보의 유출 등에 대한 자료로 사용 됩니다.<br><br>
+										<b>나. 해킹 등에 대비한 기술적 대책</b><br>
+										해킹이나 컴퓨터 바이러스 등에 의한 개인정보 유출 및 훼손을 막기 위하여 보안프로그램을 설치하고 주기적인 갱신·점검을 하며 외부로부터 접근이 통제된 구역에 시스템을 설치하고 기술적, 물리적으로 감시 및 차단하고 있습니다. 또한 네트워크 트래픽의 통제(Monitoring)는 물론 불법적으로 정보를 변경하는 등의 시도를 탐지하고 있습니다.<br><br>
+										<b>다. 개인정보처리시스템 접근 제한</b><br>
+										개인정보를 처리하는 개인정보처리시스템에 대한 접근권한의 부여, 변경, 말소를 통하여 개인정보에 대한 접근통제를 위하여 필요한 조치를 하고 있으며 침입차단시스템을 이용하여 외부로부터의 무단 접근을 통제하고 있습니다.<br><br>
+										<b>라. 개인정보의 암호화</b><br>
+										이용자의 비밀번호는 암호화 되어 저장 및 관리되고 있어, 본인만이 알 수 있으며 중요한 데이터는 파일 및 전송 데이터를 암호화 하거나 파일 잠금 기능을 사용하는 등의 별도 보안기능을 사용하고 있습니다.<br><br>
+										<b>마. 접속기록의 보관 및 위변조 방지</b><br>
+										개인정보처리시스템에 접속한 기록을 최소 2년 이상 보관·관리하고 있으며, 접속 기록이 위변조 및 도난, 분실되지 않도록 안전하게 관리하고 있습니다.</div>
+										</li>
+										<li>물리적 조치<br>
+										<div class="bx_grey">
+										<b>가. 문서보안을 위한 잠금장치 사용</b><br>
+										개인정보가 포함된 서류, 보조저장매체 등을 잠금장치가 있는 안전한 장소에 보관하고 있습니다.<br><br>
+										<b>나. 비인가자에 대한 출입 통제</b><br>
+										개인정보를 보관하고 있는 물리적 보관 장소를 별도로 두고 이에 대해 출입통제 절차를 수립, 운영하고 있습니다.
+									</div>
+									</li>
+								</ul>
+									</li>
+
+										<li>교육원은 그 밖에 전 직원 대상 개인정보(보안) 퀴즈대회를 통한 포상, 홍보, 캠페인을 통한 ‘개인정보 보호의 날’ 참여 등 다양한 개인정보 보호 활동을 통해 안전한 개인정보 처리와 개인정보 보호 문화 확산을 위해 노력하고 있습니다.</li><br id="section10">
+									</ul>	
+									</p>
+									<p align="right"><a class="c_btn" href="#section0" text-align="end">목차로 바로가기</a></p><br>
+								</div>
+								<h4 class="dcl_tit_block">
+									<span>정보주체와 법정대리인의 권리의무 행사 및 권익침해 구제방법</span><span><img src="../static/common/images/www/privacy/image23.png">&nbsp&nbsp<img src="../static/common/images/www/privacy/image28.png">&nbsp&nbsp<img src="../static/common/images/www/privacy/image32.png"></span>
+								</h4>
+								<div>
+									<div class="con_txt">
+										<ul class="list_type1 pb-20">
+											<li>정보주체는 교육원에 대해 언제든지 개인정보 열람·정정·삭제·처리정지 및 철회 요구, 자동화된 결정에 대한 거부 또는 설명 요구 등의 권리를 행사(이하 “권리 행사”라 함)할 수 있습니다.<br>
+										※ 14세 미만 아동에 관한 개인정보의 열람등 요구는 법정대리인이 직접 해야 하며, 14세 이상의 미성년자인 정보주체는 정보주체의 개인정보에 관하여 미성년자 본인이 권리를 행사하거나 법정대리인을 통하여 권리를 행사할 수도 있습니다.</li>
+										<li>교육원에 대한 정보주체의 권리 행사는 「개인정보 보호법」 시행령 제41조 제1항에 따라 서면, 전자우편, 모사전송(FAX) 등을 통하여 하실 수 있으며, 교육원은 이에 대해 지체없이 조치하겠습니다.<br>
+										<div class="bx_grey">	
+										- 홈페이지 ‘마이페이지 → 개인정보수정‘ 에서 개인정보를 직접 조회·수정·삭제하거나 ’나의1:1문의‘를 통해 요청할 수 있습니다.<br><br>
+										- 개인정보 포털(www.privacy.go.kr) → 개인서비스 → 정보주체 권리행사 → 개인정보 열람 등 요구 (본인 확인을 위하여 아이핀(I-PIN) 또는 휴대폰 인증 필요)</div></li>
+										<li>권리 행사는 정보주체의 법정대리인이나 위임을 받은 자 등 대리인을 통하여 하실 수도 있습니다. 이 경우 “개인정보 처리 방법에 관한 고시(제2020-7호)” 별지 제11호 서식에 따른 위임장을 제출하셔야 합니다.</li>
+										<li>교육원은 특별한 경우를 제외하고 정보주체의 권리를 제한하지 않습니다. 개인정보 열람 및 처리정지 요구는 ｢개인정보 보호법｣ 제35조 제4항, 제37조 제2항에 의하여 정보주체의 권리가 제한 될 수 있습니다.
+											<div class="bx_grey">
+										- 개인정보의 정정 및 삭제 요구는 다른 법령에서 그 개인정보가 수집 대상으로 명시되어 있는 경우에는 해당 개인정보의 삭제를 요구할 수 없습니다.</div></li>
+										<li>자동화된 결정이 이루어진다는 사실에 대해 정보주체의 동의를 받았거나, 계약 등을 통해 미리 알린 경우, 법률에 명확히 규정이 있는 경우에는 자동화된 결정에 대한 거부는 인정되지 않으며 설명 및 검토 요구만 가능합니다. 또한 자동화된 결정에 대한 거부·설명 요구는 다른 사람의 생명·신체·재산과 그 밖의 이익을 부당하게 침해할 우려가 있는 등 정당한 사유가 있는 경우에는 그 요구가 거절될 수 있습니다.</li>
+										<li>교육원은 정보주체 권리에 따른 열람의 요구, 정정·삭제의 요구, 처리정지의 요구, 자동화된 결정 거부·설명 요구 시 열람 등 요구를 한 자가 본인이거나 정당한 대리인인지를 확인합니다.</li>
+										<li>정보주체는 개인정보 열람, 정정·삭제, 처리정지에 대한 조치에 불만이 있거나 이의가 있는 경우에는 이의신청서를 작성하여 개인정보 보호담당자에게 이의제기를 할 수 있습니다.<br>
+										<div class="bx_grey">
+										- 교육원은 이의제기를 받은 날로부터 10일 이내에 이의제기 내용을 검토한 후, 그 결과에 따라 조치하고 개인정보(열람, 정정, 삭제, 처리정지) 요구에 대한 결과 통지서에 따라 정보주체에게 안내 드립니다.</div>
+										<div class="button_container pb-20"><a class="c_btn" href="https://www.keli.kr/static/common/images/www/privacy/privacydoc01.hwp" target="_blank">개인정보 열람등 조치에 대한 이의신청서 받기</a></div></li>
+										<li>교육원은 정보주체의 개인정보 침해 등에 대한 구제를 적극 지원합니다. 정보주체의 정당한 권리와 이익을 침해받았을 경우에는 지체없이 조치하겠습니다. 정보주체는 개인정보 침해에 대한 피해구제, 상담 등을 아래 기관에 문의하실 수 있습니다.
+										<span class="d-block pt-10">※ 각 기관은 교육원과는 별개의 기관으로서, 보다 자세한 도움이 필요하시면 해당 기관으로 문의하여 주시기 바랍니다.</span></li>
+									</ul>
+									</div>
+									<table class="tbl_col tbl_content">
+										<colgroup>
+											<col style="width: 0px;">
+											<col style="width: 0px;">
+											<col style="width: 0px;">
+											<col style="width: 0px;">
+										</colgroup>
+										<thead>
+											<tr>
+												<th class="bdl_none" scope="col">유형</th>
+												<th scope="col">기관명</th>
+												<th scope="col">웹사이트 주소</th>
+												<th scope="col">연락처</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="bdl_none"><strong class="title">유형</strong><span>개인정보 분쟁 조정</span></td>
+												<td><strong class="title">기관명</strong><span>개인정보 분쟁조정위원회</span></td>
+												<td><strong class="title">웹사이트 주소</strong><span><a href="https://kopico.go.kr" target="_blank">https://kopico.go.kr</a></span></td>
+												<td><strong class="title">연락처</strong><span>1833-6972</span></td>
+											</tr>
+											<tr>
+												<td class="bdl_none"><strong class="title">유형</strong><span>개인정보 침해 신고</span></td>
+												<td><strong class="title">기관명</strong><span>개인정보 침해신고센터</span></td>
+												<td><strong class="title">웹사이트 주소</strong><span><a href="https://privacy.kisa.or.kr" target="_blank">https://privacy.kisa.or.kr</a></span></td>
+												<td><strong class="title">연락처</strong><span>(국번없이) 118</span></td>
+											</tr>
+											<tr>
+												<td class="bdl_none"><strong class="title">유형</strong><span>사이버 범죄 신고</span></td>
+												<td><strong class="title">기관명</strong><span>대검찰청</span></td>
+												<td><strong class="title">웹사이트 주소</strong><span><a href="https://www.spo.go.kr" target="_blank">https://www.spo.go.kr</a></span></td>
+												<td><strong class="title">연락처</strong><span>(국번없이) 1301</span></td>
+											</tr>
+											<tr>
+												<td class="bdl_none"><strong class="title">유형</strong><span>사이버 사기 피해 신고</span></td>
+												<td><strong class="title">기관명</strong><span>경찰청</span></td>
+												<td><strong class="title">웹사이트 주소</strong><span><a href="https://ecrm.police.go.kr/minwon/main" target="_blank">https://ecrm.police.go.kr</a></span></td>
+												<td><strong class="title">연락처</strong><span>(국번없이) 182</span></td>
+											</tr>
+										</tbody>
+									</table><br>
+									<p class="con_txt">
+										<ul class="list_type1">
+											<li>「개인정보 보호법」제35조(개인정보의 열람), 제36조(개인정보의 정정·삭제), 제37조(개인정보의 처리정지 등)의 규정에 의한 정보주체의 요구에 대하여 공공기관의 장이 행한 처분 또는 부작위로 인하여 권리 또는 이익의 침해를 받은 정보주체는 행정심판법이 정하는 바에 따라 행정심판을 청구할 수 있습니다.
+										<span class="d-block pt-10">※ 중앙행정심판위원회 : (국번없이) 110 (<a href="https://www.simpan.go.kr" target="_blank">https://www.simpan.go.kr</a>)</span></li><br id="section11">
+									</p>
+									<p align="right"><a class="c_btn" href="#section0" text-align="end">목차로 바로가기</a></p><br>
+								</div>
+								<h4 class="dcl_tit_block">
+									<span>개인정보 보호책임자 또는 개인정보 업무 담당 및 고충사항 처리 부서</span><span><img src="../static/common/images/www/privacy/image29.png">&nbsp&nbsp<img src="../static/common/images/www/privacy/image31.png"></span>
+								</h4>
+								<div>
+									<p class="con_txt">
+										<ul class="list_type1">
+											<li>교육원은 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의 고충처리 및 피해구제 등을 위하여 아래와 같이 개인정보 보호책임자 및 담당부서를 지정하고 있습니다.</li>
+									</ul><br>
+									</p>
+									<table class="tbl_col tbl_content">
+										<colgroup>
+											<col style="width: 0px;">
+											<col style="width: 0px;">
+											<col style="width: 0px;">
+											<col style="width: 0px;">
+											<col style="width: 0px;">
+											<col style="width: 0px;">
+										</colgroup>
+										<thead>
+											<tr>
+												<th class="bdl_none" scope="col">구분</th>
+												<th scope="col">부서명</th>
+												<th scope="col">직책</th>
+												<th scope="col">성명</th>
+												<th scope="col">연락처</th>
+												<th scope="col">전자우편</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="bdl_none"><strong class="title">구분</strong><span>개인정보 보호책임자</span></td>
+												<td><strong class="title">부서명</strong><span>기획지원본부</span></td>
+												<td><strong class="title">직책</strong><span>본부장</span></td>
+												<td><strong class="title">성명</strong><span>최영만</span></td>
+												<td><strong class="title">연락처</strong><span>031-760-7703</span></td>
+												<td><strong class="title">전자우편</strong><span>ymchoi@keli.kr</span></td>
+											</tr>
+											<tr>
+												<td class="bdl_none" rowspan="3"><strong class="title">구분</strong><span>개인정보 보호담당자</span></td>
+												<td><strong class="title">부서명</strong><span>경영지원팀</span></td>
+												<td><strong class="title">직책</strong><span>책임연구원</span></td>
+												<td><strong class="title">성명</strong><span>오성호</span></td>
+												<td><strong class="title">연락처</strong><span>031-760-7869</span></td>
+												<td><strong class="title">전자우편</strong><span>actimage@keli.kr</span></td>
+											</tr>
+											<tr>
+												<td><strong class="title">부서명</strong><span>경영지원팀</span></td>
+												<td><strong class="title">직책</strong><span>연구원</span></td>
+												<td><strong class="title">성명</strong><span>조용우</span></td>
+												<td><strong class="title">연락처</strong><span>031-760-7872</span></td>
+												<td><strong class="title">전자우편</strong><span>ywcho@keli.kr</span></td>
+											</tr>
+											<tr>
+												<td><strong class="title">부서명</strong><span>경영지원팀</span></td>
+												<td><strong class="title">직책</strong><span>연구원</span></td>
+												<td><strong class="title">성명</strong><span>신현정</span></td>
+												<td><strong class="title">연락처</strong><span>031-760-7868</span></td>
+												<td><strong class="title">전자우편</strong><span>shinhj@keli.kr</span></td>
+											</tr>
+										</tbody>
+									</table><br>
+									<p class="con_txt">
+										<ul class="list_type1">
+											<li>정보주체는 교육원의 서비스(또는 사업)을 이용하시면서 발생한 개인정보 보호 관련 불만 처리, 피해구제 등에 관한 사항을 개인정보보호책임자 및 담당부서로 문의할 수 있습니다. 교육원은 정보주체의 문의에 대해 지체없이 답변 및 처리하겠습니다.</li></ul><br id="section12">
+									</p>
+									
+									<p align="right"><a class="c_btn" href="#section0" text-align="end">목차로 바로가기</a></p><br>
+								</div>
+								<h4 class="dcl_tit_block">
+									<span>개인정보의 열람청구를 접수·처리하는 부서 및 절차</span><span><img src="../static/common/images/www/privacy/image33.png">&nbsp&nbsp<img src="../static/common/images/www/privacy/image31.png"></span>
+								</h4>
+								<div>
+									<p class="con_txt">
+										<ul class="list_type1">
+											<li>정보주체는 「개인정보 보호법」 제35조에 따른 개인정보의 열람청구를 담당부서에 할 수 있습니다. 교육원은 정보주체의 개인정보 열람청구가 신속하게 처리되도록 노력하겠습니다.</li></ul><br>
+									</p>
+									<table class="tbl_col tbl_content">
+										<colgroup>
+											<col style="width: 0px;">
+											<col style="width: 0px;">
+											<col style="width: 0px;">
+											<col style="width: 0px;">
+										</colgroup>
+										<thead>
+											<tr>
+												<th class="bdl_none" scope="col">부서명</th>
+												<th scope="col">개인정보파일</th>
+												<th scope="col">담당자</th>
+												<th scope="col">연락처</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="bdl_none" rowspan="2"><strong class="title">부서명</strong><span>경영지원팀</span></td>
+												<td><strong class="title">개인정보파일</strong><span>홈페이지/교육운영시스템</span></td>
+												<td><strong class="title">담당자</strong><span>오성호</span></td>
+												<td><strong class="title">연락처</strong><span>전화: 031-760-7869<br>팩스: 031-760-7824<br>이메일: actimage@keli.kr</span></td>
+											</tr>
+											<tr>
+												<td><strong class="title">개인정보파일</strong><span>임직원 인사정보</span></td>
+												<td><strong class="title">담당자</strong><span>조용우</span></td>
+												<td><strong class="title">연락처</strong><span>전화: 031-760-7872<br>팩스: 031-760-7824<br>이메일: ywcho@keli.kr</span></td>
+											</tr>
+										</tbody>
+									</table>
+									<br>
+									<p class="con_txt">
+										<ul class="list_type1">
+											<li>정보주체는 제1항의 열람청구 부서 이외에‘개인정보보호 포털(www.privacy.go.kr)’을 통해 다음과 같이 개인정보 열람청구를 할 수 있습니다.
+											<div class="bx_grey">개인정보보호 포털(www.privacy.go.kr) → 개인서비스 → 정보주체 권리행사 → 개인정보 열람 등 요구(본인인증 필요)</div></li>
+										<li>개인정보 열람청구는 아래와 같이 처리됩니다.</li>
+									</ul>
+										<br><img src="../static/common/images/www/privacy/image35.png"><br><br id="section13">
+									</p>
+									<p align="right"><a class="c_btn" href="#section0" text-align="end">목차로 바로가기</a></p><br>
+								</div>
+								<h4 class="dcl_tit_block">
+									<span>고정형 영상정보처리기기의 운영·관리에 관한 사항</span><span><img src="../static/common/images/www/privacy/image34.png"></span>
+								</h4>
+								<div>
+									<p class="con_txt">
+										<ul class="list_type1">
+											<li>교육원에서 운영·관리중인 고정형 영상정보처리기기는 「개인정보 보호법」 제25조에 의거 설치되어 시설안전 및 화재예방과 범죄 사전예방 등 공공업무의 적정한 수행을 위한 목적으로 설치·운영되고 있습니다.<br>
+										자세한 사항은 교육원 홈페이지(www.keli.kr) > 최하단 “영상정보처리기기 운영·관리방침”에서 참고하시기 바랍니다.
+										<span class="d-block pt-10">※ 교육원은 이동형 영상정보처리기기를 운영하고 있지 않습니다.</span></li></ul><br id="section14">
+									</p>
+									<a class="c_btn" href="https://www.keli.kr/cmmn/webPage/video/selectView.do" target="_blank">영상정보처리기기 운영·관리방침 확인하기</a><br><br>
+									<p align="right"><a class="c_btn" href="#section0" text-align="end">목차로 바로가기</a></p><br><br>
+								</div>
+								<h4 class="dcl_tit_block">
+									<span>개인정보 보호수준 평가 결과</span><span><img src="../static/common/images/www/privacy/image27.png"></span>
+								</h4>
+								<div>
+									<p class="con_txt">
+										<ul class="list_type1">
+											<li>교육원은 정보주체의 개인정보를 안전하게 관리하기 위해 「개인정보 보호법」 제11조의2에 따라 매년 개인정보보호위원회에서 실시하는 “개인정보 보호수준 평가”를 받고 있습니다.</li>
+										<li>교육원은 2022년도 개인정보 보호수준 평가에서 ‘S’등급을, 2023년도 개인정보 보호수준 평가에서 ‘B’등급을 획득하였습니다.</li>
+										<li>교육원은 보호수준 평가 결과에 따른 미흡사항이 있을 시 조속히 조치합니다. 개인정보 처리절차 개선, 시스템 보안 강화 등 국민의 개인정보 보호를 위해 지속적으로 개선의 노력을 하고 있습니다.</li></ul><br id="section15">
+									</p>
+									<p align="right"><a class="c_btn" href="#section0" text-align="end">목차로 바로가기</a></p><br>
+								</div>
+								<h4 class="dcl_tit_block">
+									<span>개인정보 처리방침의 변경에 관한 사항</span><span><img src="../static/common/images/www/privacy/image25.png"></span></h4>
+								<div>
+									<p class="con_txt">
+										<ul class="list_type1">
+											<li>본 개인정보 처리방침은 2024년 10월 8일부터 적용됩니다.</li>
+										<li>이전의 개인정보 처리방침은 아래에서 확인할 수 있습니다.</li>
+									</ul>
+									</p>
+								</div>
+								<div class="b_box left">
+									<a class="c_btn" href="/cmmn/webPage/selectDetail.do?webPageId=CMMWPAG0000000000741&_paramMenuNo=430000">개인정보처리방침(2024.10.08)</a>
+									<a class="c_btn" href="/cmmn/webPage/selectDetail.do?webPageId=CMMWPAG0000000000371&_paramMenuNo=430000">개인정보처리방침(2023.10.01)</a>
+									<a class="c_btn" href="/cmmn/webPage/selectDetail.do?webPageId=CMMWPAG0000000000051&_paramMenuNo=430000">개인정보처리방침(2023.01.01)</a>
+									<a class="c_btn" href="/cmmn/webPage/selectDetail.do?webPageId=CMMWPAG0000000000035&_paramMenuNo=430000">개인정보처리방침(2022.11.10)</a>
+									<a class="c_btn" href="/cmmn/webPage/selectDetail.do?webPageId=CMMWPAG0000000000032&_paramMenuNo=430000">개인정보처리방침(2022.09.01)</a>
+									<a class="c_btn" href="/cmmn/webPage/selectDetail.do?webPageId=CMMWPAG0000000000031&_paramMenuNo=430000">개인정보처리방침(2022.06.01)</a>
+									<a class="c_btn" href="/cmmn/webPage/selectDetail.do?webPageId=CMMWPAG0000000000034&_paramMenuNo=430000">개인정보처리방침(2021.10.08)</a>
+									<a class="c_btn" href="/cmmn/webPage/selectDetail.do?webPageId=CMMWPAG0000000000033&_paramMenuNo=430000">개인정보처리방침(2020.10.05)</a>
+								</div>
+								<br>
+								<p align="right"><a class="c_btn" href="#section0" text-align="end">목차로 바로가기</a></p><br><br>
+							</div></div>
+				<!-- 콘텐츠 End -->
+			</div>
+		</div>	
+		<div class="chatbot">
+			<div class="rows">
+				<div>
+					<a href="javascript:void(0)" title="챗봇 닫기" class="b_chat_close"><span class="sr_only">챗봇 닫기</span></a>
+					<a href="javascript:void(0)" title="챗봇 링크" class="b_chatbot" onclick="_FUNC.openChatbot()"><span class="sr_only">챗봇 링크</span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- footer -->
+	<div id="footer">
+		<script type="text/javaScript" language="javascript">
+
+	doOpenSite = function(linkCd){
+		var gourl = $("#__linkCd_"+linkCd).val();
+		var linkName = $("#__linkName_"+linkCd).val();
+	//	alert(gourl);
+		window.open(gourl,'_blank');
+		
+		var req = imRequest("ajax",{formId: "FormLinkParam"});
+		req.cfg.type   = "json";
+		req.cfg.url    =  "/cmmn/linkcode/insert.do";
+		req.cfg.fn.complete = function(act, data) {}
+
+		var form =  document.getElementById(req.cfg.formId);
+		form.elements["linkCd"].value= linkCd;
+		form.elements["linkName"].value= linkName;
+		req.go();
+	}
+
+</script>
+		<ul class="menu">
+			<li class="em"><a href="/cmmn/webPage/privacy/selectView.do">개인정보 처리방침</a></li>
+			<li><a href="/cmmn/webPage/video/selectView.do">영상정보처리기기 운영·관리방침</a></li>
+			<li><a href="/cmmn/page/intro101/page.do">서비스 헌장</a></li>
+			<li><a href="/cmmn/page/intro60/page.do">안전보건경영</a></li>
+			<li><a href="/cmmn/webPage/terms/selectView.do">이용약관</a></li>
+			<li><a href="/cmmn/webPage/relation/selectView.do">관련사이트 한 눈에 보기</a></li>
+			<li><a href="https://www.juso.go.kr/openIndexPage.do" target="_blank">도로명주소 안내</a></li>
+		</ul>
+		<div class="family_site">
+			<select onchange="doOpenSite(this.value)">
+				<option>유관기관 바로가기</option>
+				<option value="001">고용노동부</option>
+				<option value="002">근로복지공단</option>
+				<option value="003">한국산업인력공단</option>
+				<option value="004">한국산업안전보건공단</option>
+				<option value="005">한국고용정보원</option>
+				<option value="006">한국장애인고용공단</option>
+				<option value="007">한국폴리텍대학</option>
+				<option value="008">노사발전재단</option>
+				<option value="009">한국기술교육대학교</option>
+				<option value="010">건설근로자공제회</option>
+				<option value="011">한국사회적기업진흥원</option>
+				<option value="012">한국잡월드</option>
+				</select>
+		</div>
+		<ul class="logo">
+			<li><img src="../static/common/images/www/common/logo_footer.png" alt="한국고용노동교육원"></li>
+			<li><img src="../static/common/images/www/common/logo_donation.png" alt="교육기부 우수기관"></li>
+		</ul>
+		<address>
+			<!-- <p>한국고용노동교육원 대표 : 노광표</p> -->
+			<p>Address : 12774) 경기도 광주시 봉골길 229 (문형동)</p>
+			<p>사업자등록번호  720-82-00342 | TEL 031-760-7700</p>
+			<p class="copy">COPYRIGHT 2022 Korea Employment and Labor Educational Institute. All Rights Reserved.</p>
+		</address>
+		<div class="footer_sns">
+			<span>sns</span>
+			<ul>
+				<li class="blog"><a href="https://blog.naver.com/keli1005" target="_blank">네이버블로그</a></li>
+				<li class="facebook"><a href="https://facebook.com/keli1005" target="_blank">페이스북</a></li>
+				<li class="instagram"><a href="https://www.instagram.com/keli1005_/" target="_blank">인스타그램</a></li>
+				<li class="kakao"><a href="https://pf.kakao.com/_xduqKK" target="_blank">카카오톡 채널</a></li>
+				<li class="youtube"><a href="https://www.youtube.com/@user-yz5pv3fp9x" target="_blank">유튜브</a></li>
+			</ul>
+		</div>
+		
+<form name="FormLinkParam" id="FormLinkParam" method="post" onsubmit="return false;">
+<input type="hidden" name="linkCd"/>
+<input type="hidden" name="linkName"/>
+<input type="hidden" id="__linkCd_001" value="http://www.moel.go.kr/index.do"/>
+<input type="hidden" id="__linkName_001" value="고용노동부"/>
+<input type="hidden" id="__linkCd_002" value="https://www.comwel.or.kr/comwel/main.jsp"/>
+<input type="hidden" id="__linkName_002" value="근로복지공단"/>
+<input type="hidden" id="__linkCd_003" value="https://www.hrdkorea.or.kr/"/>
+<input type="hidden" id="__linkName_003" value="한국산업인력공단"/>
+<input type="hidden" id="__linkCd_004" value="https://www.kosha.or.kr/kosha/index.do"/>
+<input type="hidden" id="__linkName_004" value="한국산업안전보건공단"/>
+<input type="hidden" id="__linkCd_005" value="https://www.keis.or.kr/main/index.do"/>
+<input type="hidden" id="__linkName_005" value="한국고용정보원"/>
+<input type="hidden" id="__linkCd_006" value="https://www.kead.or.kr/"/>
+<input type="hidden" id="__linkName_006" value="한국장애인고용공단"/>
+<input type="hidden" id="__linkCd_007" value="https://www.kopo.ac.kr/index.do"/>
+<input type="hidden" id="__linkName_007" value="한국폴리텍대학"/>
+<input type="hidden" id="__linkCd_008" value="http://www.nosa.or.kr/"/>
+<input type="hidden" id="__linkName_008" value="노사발전재단"/>
+<input type="hidden" id="__linkCd_009" value="https://www.koreatech.ac.kr/kor/Main.do"/>
+<input type="hidden" id="__linkName_009" value="한국기술교육대학교"/>
+<input type="hidden" id="__linkCd_010" value="https://www.cw.or.kr/index.do"/>
+<input type="hidden" id="__linkName_010" value="건설근로자공제회"/>
+<input type="hidden" id="__linkCd_011" value="https://www.socialenterprise.or.kr/index.do"/>
+<input type="hidden" id="__linkName_011" value="한국사회적기업진흥원"/>
+<input type="hidden" id="__linkCd_012" value="https://www.koreajobworld.or.kr/main.do"/>
+<input type="hidden" id="__linkName_012" value="한국잡월드"/>
+</form>	
+<!-- LOGGER(TM) TRACKING SCRIPT V.40 FOR logger.co.kr / 17877 : COMBINE TYPE / DO NOT ALTER THIS SCRIPT. -->
+<script type="text/javascript">var _TRK_LID = "17877";var _L_TD = "ssl.logger.co.kr";var _TRK_CDMN = "";</script>
+<script type="text/javascript">var _CDN_DOMAIN = location.protocol == "https:" ? "https://fs.bizspring.net" : "http://fs.bizspring.net"; 
+(function (b, s) { var f = b.getElementsByTagName(s)[0], j = b.createElement(s); j.async = true; j.src = "//fs.bizspring.net/fs4/bstrk.1.js"; f.parentNode.insertBefore(j, f); })(document, "script");
+</script>
+<noscript><img alt="Logger Script" width="1" height="1" src="http://ssl.logger.co.kr/tracker.1.tsp?u=17877&amp;js=N"/></noscript>
+<!-- END OF LOGGER TRACKING SCRIPT -->
+</div>
+	<!-- //footer -->
+</div>
+
+
+
+	
+<div class="ct_dialog alert" id="manage_login" style="display:none;">
+	<div class="tb">
+		<div class="inner">
+			<div class="outer" style="max-width:300px;"><!-- max-width 값 필수 -->
+				<div class="top">
+					<div class="bowl">
+						<p class="title">Confirm</p>
+						<a href="#" onclick="GREQ.loginClose()"  class="p_close"><span class="sr_only">닫기</span></a>
+					</div>
+				</div>
+				<div class="ct">
+					<!-- 콘텐츠 -->
+					<p class="at_desc">로그인이 필요한 기능입니다. <br>로그인 페이지로 이동하겠습니까?</p>
+					<div class="fb_box">
+						<a href="javascript:;" onclick="GREQ.login()"  class="c_btn green">확인</a>
+						<a href="javascript:;" onclick="GREQ.loginClose()"  class="c_btn wt">취소</a>
+					</div>
+					<!-- //콘텐츠 -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- [마크업 수정] 2025-08-26 -->
+</div>
+<div style="display: none;">
+<form name="FormMenuParam" id="FormMenuParam" method="post" onsubmit="return false;">
+<input type="hidden" name="_paramMenuNo" value="430000"/>
+<input type="hidden" name="_paramMenuName" />
+</form>
+<form name="FormLoginParam" id="FormLoginParam" method="post" onsubmit="return false;">
+<input type="hidden" name="_paramReturnUrl" id="_paramReturnUrl" />
+</form>
+</div>
+
+
+</body>
+</html>
+
+
+
